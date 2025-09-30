@@ -1,7 +1,7 @@
 {
   "name": "fhi-korenova",
   "scripts": {
-    "start": "ts-node src/uloha1.ts"
+    "start": "ts-node src/uloha3.ts"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
