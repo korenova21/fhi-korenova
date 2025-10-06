@@ -1,5 +1,3 @@
-import readlineSync from "readline-sync";
-
-const vstup = readlineSync.question("Zadaj dve čísla, napr. -2 5: ");
-const [a = 0, n = 0] = vstup.split(" ").map(Number);
+const a:number= -2;
+const n:number= 5;
 console.log(`${a}^${n} = ${a ** n}`);

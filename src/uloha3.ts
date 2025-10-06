@@ -29,4 +29,4 @@ function over(palindrom:string):void{
 }
 
 over("madam");
-over("trtko");
+over("adam");

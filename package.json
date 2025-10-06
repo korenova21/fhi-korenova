@@ -1,8 +1,7 @@
 {
   "name": "fhi-korenova",
-  "type": "module",
   "scripts": {
-    "start": "ts-node src/uloha4.ts"
+    "start": "ts-node src/uloha5.ts"
   },
   "devDependencies": {
     "@types/readline-sync": "^1.4.8",
