@@ -16,11 +16,9 @@ function vypisPismena(veta: string): void {
         }
     }
 
-    // pekný výpis
     for (const pismeno in pocitadlo) {
         console.log(`${pismeno} ${pocitadlo[pismeno]}`);
     }
 }
 
-// Príklad:
 vypisPismena("Alabama");

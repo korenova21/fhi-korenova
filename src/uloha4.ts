@@ -1,3 +1,4 @@
-const a:number= -2;
-const n:number= 5;
-console.log(`${a}^${n} = ${a ** n}`);
+function mocnina(a:number,n:number):void {
+    console.log(`${a}^${n} = ${a ** n}`);
+}
+mocnina(-2,5);

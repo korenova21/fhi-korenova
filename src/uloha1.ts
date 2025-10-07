@@ -13,4 +13,4 @@ function bmiIndex (weight:number, height:number): string{
         return `obezita, schudni ${schudnut.toFixed(1)} kg.`;
     }
 }
-console.log(bmiIndex(70,170));
+bmiIndex(70,170);
