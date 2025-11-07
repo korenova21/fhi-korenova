@@ -1,7 +1,8 @@
 {
   "name": "fhi-korenova",
   "scripts": {
-    "start": "ts-node src/indexHotel.ts"
+    "start": "ts-node src/indexHotel.ts",
+    "build:sass": "cd .templates && sass main.scss main.css"
   },
   "devDependencies": {
     "@types/express": "^5.0.4",

@@ -1,10 +1,8 @@
-$fontColor: #ff0000;
-
 body {
   background: aquamarine;
 }
 
-.custom-title{
+.custom-title {
   font-size: 32px;
   color: greenyellow;
   margin-top: 0;
@@ -18,3 +16,5 @@ body {
   color: red;
   margin: 20px;
 }
+
+/*# sourceMappingURL=main.css.map */
