@@ -1,28 +1,48 @@
 import express from 'express';
+import cors from 'cors';
+import {Request, Response} from 'express';
 import {
-    getAllPersons,
-    getPersonById,
-    createPerson,
-    updatePersonById,
-    deletePersonById
-} from './services/person.service';
+    getAllRooms,
+    getRoomById,
+    createRoom,
+    updateRoomById,
+    deleteRoomById
+} from './services/room.service';
+
+import {
+    createReservation, deleteReservationByCode,
+    getAllReservations, getReservationByCode, updateReservationByCode
+
+} from './services/reservation.service';
+
 
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 
-// PERSON API
-app.get('/users', getAllPersons);
-app.get('/users/:id', getPersonById);
-app.post('/users', createPerson);
-app.put('/users/:id', updatePersonById);
-app.delete('/users/:id', deletePersonById);
-
-app.listen(port, () => {
-    console.log(`Hotel app listening on port ${port}`);
+app.get('/', (req: Request, res: Response) => {
+    res.send('Server is running! 🚀');
 });
 
+// Person routes
+app.get('/rooms', getAllRooms);
+app.get('/rooms/:id', getRoomById);
+app.post('/rooms/', createRoom);
+app.put('/rooms/:id', updateRoomById);
+app.delete('/rooms/:id', deleteRoomById);
+
+// Reservation routes
+app.get('/reservations', getAllReservations);
+app.get('/reservations/:id', getReservationByCode);
+app.post('/reservations/', createReservation);
+app.put('/reservations/:id', updateReservationByCode);
+app.delete('/reservations/:id', deleteReservationByCode);
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+})
 
 
 

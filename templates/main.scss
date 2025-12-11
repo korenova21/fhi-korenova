@@ -1,20 +1,4 @@
-$fontColor: #ff0000;
-
-body {
-  background: aquamarine;
-}
-
-.custom-title{
-  font-size: 32px;
-  color: greenyellow;
-  margin-top: 0;
-  border: 1px solid darkslateblue;
-  padding: 16px 32px;
-  text-align: center;
-}
-
-.custom-paragraph {
-  font-size: 18px;
-  color: red;
-  margin: 20px;
-}
+@import "variables";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+$bootstrap-icons-font-dir: "../node_modules/bootstrap-icons/font/fonts";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons";

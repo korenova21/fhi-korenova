@@ -1,47 +1,108 @@
-/*
-import {Request, Response} from 'express';
-import {Storage} from '../storage/Storage';
-import {Room} from '../classes/Room';
-
-import {getValidId, getPerson} from '../utils/validation.utils';
+import { Request, Response } from "express";
+import { Storage } from "../storage/Storage";
+import { Room } from "../classes/Room";
+import { compareId, gatValidId, getObject } from "../utils/validation.utils";
 
 const storage = Storage.getInstance();
 
+// ---------------------------------------------------------
+// GET ALL ROOMS
+// ---------------------------------------------------------
 export const getAllRooms = (req: Request, res: Response) => {
     res.send(storage.getAllRooms());
 };
 
-export const getPersonById = (req: Request, res: Response) => {
-    const id = getValidId(req, res);
+// ---------------------------------------------------------
+// GET ROOM BY ID
+// ---------------------------------------------------------
+export const getRoomById = (req: Request, res: Response) => {
+    const id = gatValidId(req, res);
     if (!id) return;
-    const p = getPerson(id, res);
-    if (!p) return;
-    res.send(p);
+
+    const room = getObject(
+        storage.getAllRooms(),
+        (r) => compareId(r, id),
+        res
+    );
+    if (!room) return;
+
+    res.send(room);
 };
 
+// ---------------------------------------------------------
+// CREATE ROOM
+// ---------------------------------------------------------
 export const createRoom = (req: Request, res: Response) => {
-    const p = new Room(storage.getNextId(), req.body.name, req.body.email);
-    storage.addPerson(p);
-    res.status(201).send(p.getId());
+
+    const isOccupied = req.body.isOccupied === "occupied";
+
+    const room = new Room(
+        storage.getNextId(),
+        req.body.cislo,
+        req.body.type,
+        req.body.price,
+        isOccupied,
+        req.body.capacity
+    );
+
+    storage.addRoom(room);
+    res.status(201).send(room.getId());
 };
 
-export const updatePersonById = (req: Request, res: Response) => {
-    const id = getValidId(req, res);
+// ---------------------------------------------------------
+// UPDATE ROOM BY ID
+// ---------------------------------------------------------
+export const updateRoomById = (req: Request, res: Response) => {
+    const id = gatValidId(req, res);
     if (!id) return;
-    const p = getPerson(id, res);
-    if (!p) return;
 
-    if (req.body.name) p.setName(req.body.name);
-    if (req.body.email) p.setEmail(req.body.email);
+    const room = getObject(
+        storage.getAllRooms(),
+        (room) => compareId(room, id),
+        res
+    );
+    if (!room) return;
 
-    res.sendStatus(200);
+    // UPDATE: type
+    if (req.body.type) {
+        room.setType(req.body.type);
+    }
+
+    // UPDATE: price
+    if (req.body.price) {
+        room.setPrice(req.body.price);
+    }
+
+    // UPDATE: capacity
+    if (req.body.capacity) {
+        room.setCapacity(req.body.capacity);
+    }
+
+    // UPDATE: isOccupied
+    if (req.body.isOccupied !== undefined) {
+        const newValue =
+            req.body.isOccupied === "occupied";
+
+        room.setOccupied(newValue);
+    }
+
+    res.send(void 0);
 };
 
-export const deletePersonById = (req: Request, res: Response) => {
-    const id = getValidId(req, res);
+// ---------------------------------------------------------
+// DELETE ROOM BY ID
+// ---------------------------------------------------------
+export const deleteRoomById = (req: Request, res: Response) => {
+    const id = gatValidId(req, res);
     if (!id) return;
-    const p = getPerson(id, res);
-    if (!p) return;
-    storage.deletePersonById(id);
-    res.sendStatus(204);
+
+    const room = getObject(
+        storage.getAllRooms(),
+        (room) => compareId(room, id),
+        res
+    );
+    if (!room) return;
+
+    storage.deleteRoomById(id);
+    res.send(void 0);
 };

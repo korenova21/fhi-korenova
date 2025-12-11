@@ -1,7 +1,6 @@
-import {Person} from '../classes/Person';
-import {Room} from '../classes/Room';
-import {Reservation} from '../classes/Reservation';
-
+import { Person } from "../classes/Person";
+import { Room } from "../classes/Room";
+import { Reservation } from "../classes/Reservation";
 
 export class Storage {
     private static instance: Storage;
@@ -14,31 +13,79 @@ export class Storage {
     private constructor() {}
 
     static getInstance(): Storage {
-        if (!Storage.instance) {
-            Storage.instance = new Storage();
+        if (!this.instance) {
+            this.instance = new Storage();
         }
-        return Storage.instance;
+        return this.instance;
     }
 
+    // ID GENERATOR
     getNextId(): number {
         return this.id++;
     }
 
+    // ---------------------------------------------------------
     // PERSONS
-    getAllPersons() { return this.persons; }
-    getPersonById(id: number) {
-        return this.persons.find(p => p.getId() === id);
-    }
-    addPerson(p: Person) { this.persons.push(p); }
-    deletePersonById(id: number) {
-        this.persons = this.persons.filter(p => p.getId() !== id);
+    // ---------------------------------------------------------
+    getAllPersons(): Person[] {
+        return this.persons;
     }
 
+    getPersonById(id: number): Person | undefined {
+        return this.persons.find((p) => p.getId() === id);
+    }
+
+    getPersonByEmail(email: string): Person | undefined {
+        return this.persons.find(
+            (p) => p.getEmail().toLowerCase() === email.toLowerCase()
+        );
+    }
+
+    addPerson(p: Person): void {
+        this.persons.push(p);
+    }
+
+    deletePersonById(id: number): void {
+        this.persons = this.persons.filter((p) => p.getId() !== id);
+    }
+
+    // ---------------------------------------------------------
     // ROOMS
-    getAllRooms() { return this.rooms; }
-    addRoom(room: Room) { this.rooms.push(room); }
+    // ---------------------------------------------------------
+    getAllRooms(): Room[] {
+        return this.rooms;
+    }
 
+    getRoomById(id: number): Room | undefined {
+        return this.rooms.find((room) => room.getId() === id);
+    }
+
+    addRoom(room: Room): void {
+        this.rooms.push(room);
+
+    }
+
+    deleteRoomById(id: number): void {
+        this.rooms = this.rooms.filter((room) => room.getId() !== id);
+    }
+
+    // ---------------------------------------------------------
     // RESERVATIONS
-    getReservations() { return this.reservations; }
-    addReservation(res: Reservation) { this.reservations.push(res); }
+    // ---------------------------------------------------------
+    getAllReservations(): Reservation[] {
+        return this.reservations;
+    }
+
+    getReservationByCode(code: string): Reservation | undefined {
+        return this.reservations.find((r) => r.getCode() === code);
+    }
+
+    addReservation(r: Reservation): void {
+        this.reservations.push(r);
+    }
+
+    deleteReservationByCode(code: string): void {
+        this.reservations = this.reservations.filter((r) => r.getCode() !== code);
+    }
 }
+

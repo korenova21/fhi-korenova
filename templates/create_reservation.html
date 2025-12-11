@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tvorba rezervácie</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Hotel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Reservations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Rooms</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mt-5">Vyberte izbu, počet dní a počet ubytovaných osôb</h1>
+    <div class="card shadow mt-3">
+        <div class="card-body">
+            <form>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 col-xxl-4">
+                        <label for="meno" class="form-label">Meno a priezvisko</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="meno"
+                                placeholder="Zadajte vaše meno a priezvisko"
+                        >
+                    </div>
+                    <div class="col-12 col-md-6 col-xxl-4">
+                        <label for="izba" class="form-label">Izba</label>
+                        <select class="form-select" id="izba" aria-label="Default select example">
+                            <option selected>Vyberte izbu</option>
+                            <option value="Basic C205">Basic C205</option>
+                            <option value="Basic B304">Basic B304</option>
+                            <option value="Deluxe A105">Deluxe A105</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6 col-xxl-4">
+                        <label for="dni_pobytu" class="form-label">Dĺžka pobytu</label>
+                        <select class="form-select" id="dni_pobytu" aria-label="Default select example">
+                            <option selected>Počet nocí</option>
+                            <option value="1">1 noc</option>
+                            <option value="2">2 noci</option>
+                            <option value="3">3 noci</option>
+                            <option value="4">4 noci</option>
+                            <option value="5">5 nocí</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6 col-xxl-4">
+                        <label for="pocet_ubyt" class="form-label">Počet ubytovaných</label>
+                        <select class="form-select" id="pocet_ubyt" aria-label="Default select example">
+                            <option selected>Vyberte počet osôb</option>
+                            <option value="1">1 dospelý</option>
+                            <option value="2">1 dospelý, 1 dieťa</option>
+                            <option value="3">1 dospelý, 2 deti</option>
+                            <option value="4">2 dospelí</option>
+                            <option value="5">2 dospelí, 1 dieťa</option>
+                            <option value="6">2 dospelí, 2 deti</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-end mt-3">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i>Objednať
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

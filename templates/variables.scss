@@ -1,0 +1,34 @@
+$bootstrap-icons-font-dir: '../node_modules/bootstrap-icons/font/fonts';
+
+//npm run build:sass
+
+  // ===== Bootstrap color overrides =====
+$primary: #087777;     // main blue
+$secondary: #7db8b8;   // lighter blue
+$body-bg: #eeffff;     // light blue background
+$body-color: #074c4c;  // dark blue text
+$card-bg: #eeffff;
+
+
+// Optional (navbar example)
+$navbar-dark-bg: $primary;
+$navbar-dark-color: #ffffff;
+
+.card-img-top {
+  width: 100%;
+  height: 200px;       /* pevná výška */
+  object-fit: cover;   /* obrázok sa pekne oreže */
+  background-color: #e9ecef; /* sivé pozadie ak sa obrázok nenačíta */
+}
+
+.img-wrapper {
+  width: 100%;
+  height: 200px;        /* the visible image height */
+  overflow: hidden;     /* hides the expanding sides */
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;    /* zoom + crop perfectly */
+}
