@@ -59,7 +59,7 @@ export const getPersonByName = (req: Request, res: Response) => {
 // CREATE PERSON
 // ---------------------------------------------------------
 export const createPerson = (req: Request, res: Response) => {
-    const person = new Person(storage.getNextId(), req.body.name, req.body.email);
+    const person = new Person(storage.getNextPersonId(), req.body.name, req.body.email);
     storage.addPerson(person);
     res.status(201).send(person.getId());
 };

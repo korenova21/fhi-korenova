@@ -37,7 +37,7 @@ export const createRoom = (req: Request, res: Response) => {
     const isOccupied = req.body.isOccupied === "occupied";
 
     const room = new Room(
-        storage.getNextId(),
+        storage.getNextRoomId(),
         req.body.cislo,
         req.body.type,
         req.body.price,

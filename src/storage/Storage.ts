@@ -8,7 +8,8 @@ export class Storage {
     private persons: Person[] = [];
     private rooms: Room[] = [];
     private reservations: Reservation[] = [];
-    private id: number = 1;
+    private personIdCounter: number = 1;
+    private roomIdCounter: number = 1;
 
     private constructor() {}
 
@@ -20,10 +21,13 @@ export class Storage {
     }
 
     // ID GENERATOR
-    getNextId(): number {
-        return this.id++;
+    getNextPersonId(): number {
+        return this.personIdCounter++;
     }
 
+    getNextRoomId(): number {
+        return this.roomIdCounter++;
+    }
     // ---------------------------------------------------------
     // PERSONS
     // ---------------------------------------------------------
