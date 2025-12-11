@@ -18,33 +18,6 @@ export const getReservationByCode = (req: Request, res: Response) => {
 
     res.send(rsv);
 }
-/*
-export const createReservation = (req: Request, res: Response) => {
-    const reservation = req.body;
-
-    const room = storage.getRoomById(reservation.roomId);
-
-    if (!room) {
-        return res.status(404).send("Room not found");
-    }
-
-    // 1. nastavíme room ako obsadenú
-    room.setOccupied(true);
-
-    // 2. uložíme rezerváciu
-    storage.addReservation(reservation);
-
-    res.status(201).send("Reservation created");
-};
-
-*/
-
-// Pridaj import Person, ak ho tam nemáš
-
-
-// Pridaj importy na začiatok, ak chýbajú
-// import { storage } from ... (tvoj storage)
-// import { Reservation } from ...
 
 export const createReservation = (req: Request, res: Response) => {
     const { code, roomId, guestId, nights, party } = req.body;
@@ -80,7 +53,7 @@ export const createReservation = (req: Request, res: Response) => {
     // 5. Uložíme
     storage.addReservation(newReservation);
 
-    res.status(201).send("Reservation created");
+    res.status(201).json({ message: "Reservation created" });
 };
 
 
@@ -96,14 +69,44 @@ export const updateReservationByCode = (req: Request, res: Response) => {
     }
 
     // Základná logika pre update (bez zmeny izby alebo hosťa)
-    if (req.body.nights) {
-        rsv.nights = req.body.nights;
-    }
-    if (req.body.party) {
-        rsv.party = req.body.party;
+    if (req.body.nights) rsv.nights = req.body.nights;
+    if (req.body.party) rsv.party = req.body.party;
+
+    // 2. UPDATE ROOM (Zmena izby)
+    if (req.body.roomId && Number(req.body.roomId) !== rsv.room.getId()) {
+        const newRoomId = Number(req.body.roomId);
+        const newRoom = storage.getRoomById(newRoomId);
+
+        if (!newRoom) {
+            return res.status(404).json({ error: "New room not found" });
+        }
+
+        // Ak je nová izba obsadená (a nie je to tá istá izba), chyba
+        if (newRoom.getIsOccupied() && newRoom.getId() !== rsv.room.getId()) {
+            return res.status(400).json({ error: "New room is already occupied" });
+        }
+
+        // A. Uvoľníme starú izbu
+        rsv.room.setOccupied(false);
+
+        // B. Obsadíme novú izbu
+        newRoom.setOccupied(true);
+
+        // C. Priradíme novú izbu rezervácii
+        rsv.room = newRoom;
     }
 
-    res.status(200).send(void 0); // 200 OK
+    // 3. UPDATE GUEST (Zmena hosťa)
+    if (req.body.guestId && Number(req.body.guestId) !== rsv.guest.getId()) {
+        const newPerson = storage.getPersonById(Number(req.body.guestId));
+        if (!newPerson) {
+            return res.status(404).json({ error: "New guest not found" });
+        }
+        rsv.guest = newPerson;
+    }
+
+    // Odpovieme JSONom, aby Angular nehlásil chybu
+    res.status(200).json({ message: "Reservation updated" });
 }
 
 

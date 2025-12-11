@@ -15,6 +15,13 @@ import {
 
 } from './services/reservation.service';
 
+import {
+    getAllPersons,
+    getPersonById,
+    createPerson,
+    updatePersonById,
+    deletePersonById
+} from './services/person.service';
 
 const app = express();
 const port = 3000;
@@ -33,12 +40,18 @@ app.post('/rooms/', createRoom);
 app.put('/rooms/:id', updateRoomById);
 app.delete('/rooms/:id', deleteRoomById);
 
+app.get('/persons', getAllPersons);
+app.get('/persons/:id', getPersonById);
+app.post('/persons/', createPerson);
+app.put('/persons/:id', updatePersonById);
+app.delete('/persons/:id', deletePersonById);
+
 // Reservation routes
 app.get('/reservations', getAllReservations);
-app.get('/reservations/:id', getReservationByCode);
+app.get('/reservations/code', getReservationByCode);
 app.post('/reservations/', createReservation);
-app.put('/reservations/:id', updateReservationByCode);
-app.delete('/reservations/:id', deleteReservationByCode);
+app.put('/reservations/:code', updateReservationByCode);
+app.delete('/reservations/:code', deleteReservationByCode);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
