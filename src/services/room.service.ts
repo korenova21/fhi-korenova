@@ -89,6 +89,9 @@ export const updateRoomById = (req: Request, res: Response) => {
     res.send(void 0);
 };
 
+// ... existujúce importy
+// ...
+
 // ---------------------------------------------------------
 // DELETE ROOM BY ID
 // ---------------------------------------------------------
@@ -103,6 +106,14 @@ export const deleteRoomById = (req: Request, res: Response) => {
     );
     if (!room) return;
 
+    // NOVÉ: Kontrola aktívnych rezervácií
+    const hasActiveReservation = storage.getAllReservations().some(r => r.room.getId() === id);
+
+    if (hasActiveReservation) {
+        res.status(400).send("Cannot delete room: Room has active reservations.");
+        return;
+    }
+
     storage.deleteRoomById(id);
-    res.send(void 0);
+    res.status(204).send(void 0); // 204 No Content pre úspešné mazanie
 };
