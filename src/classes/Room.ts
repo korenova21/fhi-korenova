@@ -8,7 +8,6 @@ export class Room {
         private capacity: number
     ) {}
 
-    // GETTERS
     getId(): number {
         return this.id;
     }
@@ -33,7 +32,7 @@ export class Room {
         return this.capacity;
     }
 
-    // SETTERS
+
     setNumber(cislo: string) {
         this.cislo = cislo;
     }

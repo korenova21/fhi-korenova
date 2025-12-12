@@ -21,7 +21,12 @@ export const getReservationByCode = (req: Request, res: Response) => {
 export const createReservation = (req: Request, res: Response) => {
     const { code, roomId, guestId, nights, party } = req.body;
 
-    // 1. Nájdeme Room
+    const existingReservation = storage.getReservationByCode(code);
+    if (existingReservation) {
+        return res.status(400).send(`Reservation with code '${code}' already exists.`);
+    }
+
+    // vyhladanie room
     const room = storage.getRoomById(Number(roomId));
     if (!room) {
         return res.status(404).send("Room not found");
@@ -30,13 +35,13 @@ export const createReservation = (req: Request, res: Response) => {
         return res.status(400).send("Room is already occupied");
     }
 
-    // 2. Nájdeme Guest (Person)
+    // vyhladanie guest (person)
     const person = storage.getPersonById(Number(guestId));
     if (!person) {
         return res.status(404).send("Guest (Person) not found");
     }
 
-    // 3. Vytvoríme rezerváciu
+    // vytvorenie rezervacie
     const newReservation = new Reservation(
         code,
         person,
@@ -45,10 +50,10 @@ export const createReservation = (req: Request, res: Response) => {
         party
     );
 
-    // 4. Nastavíme izbu ako obsadenú
+    // nastavenie izby ako obsadenej
     room.setOccupied(true);
 
-    // 5. Uložíme
+    // ulozenie
     storage.addReservation(newReservation);
 
     res.status(201).json({ message: "Reservation created" });
@@ -64,7 +69,7 @@ export const updateReservationByCode = (req: Request, res: Response) => {
     if (req.body.nights) rsv.nights = req.body.nights;
     if (req.body.party) rsv.party = req.body.party;
 
-    // 2. UPDATE ROOM (Zmena izby)
+    // update room
     if (req.body.roomId && Number(req.body.roomId) !== rsv.room.getId()) {
         const newRoomId = Number(req.body.roomId);
         const newRoom = storage.getRoomById(newRoomId);
@@ -73,18 +78,18 @@ export const updateReservationByCode = (req: Request, res: Response) => {
             return res.status(404).json({ error: "New room not found" });
         }
 
-        // Ak je nová izba obsadená (a nie je to tá istá izba), chyba
+        // izba obsadena
         if (newRoom.getIsOccupied() && newRoom.getId() !== rsv.room.getId()) {
             return res.status(400).json({ error: "New room is already occupied" });
         }
 
-        // A. Uvoľníme starú izbu
+        // uvolnenie starej izby
         rsv.room.setOccupied(false);
 
-        // B. Obsadíme novú izbu
+        // obsadenie starej izby
         newRoom.setOccupied(true);
 
-        // C. Priradíme novú izbu rezervácii
+        // priradenie novej izby
         rsv.room = newRoom;
     }
 

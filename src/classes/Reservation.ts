@@ -1,10 +1,10 @@
-import { Person } from './Person'; // Zmena z Guest na Person
+import { Person } from './Person';
 import { Room } from './Room';
 
 export class Reservation {
     constructor(
         public code: string,
-        public guest: Person, // Tu používame Person
+        public guest: Person,
         public room: Room,
         public nights: number,
         public party: number
