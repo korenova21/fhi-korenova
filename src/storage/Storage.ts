@@ -20,11 +20,10 @@ export class Storage {
         return this.instance;
     }
 
-    // ID GENERATOR
+    //ID pre person a room
     getNextPersonId(): number {
         return this.personIdCounter++;
     }
-
     getNextRoomId(): number {
         return this.roomIdCounter++;
     }

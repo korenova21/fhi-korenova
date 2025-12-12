@@ -7,7 +7,7 @@ export class Reservation {
         public guest: Person, // Tu používame Person
         public room: Room,
         public nights: number,
-        public party: string
+        public party: number
     ) {}
 
     getCode(): string {

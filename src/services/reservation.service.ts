@@ -2,7 +2,6 @@ import {Request, Response} from 'express';
 import {Storage} from '../storage/Storage';
 import {Reservation} from '../classes/Reservation';
 import {getObject} from '../utils/validation.utils';
-import { Person } from '../classes/Person';
 
 const storage = Storage.getInstance();
 
@@ -38,12 +37,11 @@ export const createReservation = (req: Request, res: Response) => {
     }
 
     // 3. Vytvoríme rezerváciu
-    // room a person sú teraz skutočné objekty
     const newReservation = new Reservation(
         code,
         person,
         room,
-        Number(nights),
+        nights,
         party
     );
 
@@ -56,11 +54,6 @@ export const createReservation = (req: Request, res: Response) => {
     res.status(201).json({ message: "Reservation created" });
 };
 
-
-
-// ... existujúce importy
-
-// ...
 export const updateReservationByCode = (req: Request, res: Response) => {
     const code = req.params.code!;
     const rsv = getObject(storage.getAllReservations(), (p) => p.getCode() === code, res)
@@ -68,7 +61,6 @@ export const updateReservationByCode = (req: Request, res: Response) => {
         return;
     }
 
-    // Základná logika pre update (bez zmeny izby alebo hosťa)
     if (req.body.nights) rsv.nights = req.body.nights;
     if (req.body.party) rsv.party = req.body.party;
 
@@ -96,7 +88,6 @@ export const updateReservationByCode = (req: Request, res: Response) => {
         rsv.room = newRoom;
     }
 
-    // 3. UPDATE GUEST (Zmena hosťa)
     if (req.body.guestId && Number(req.body.guestId) !== rsv.guest.getId()) {
         const newPerson = storage.getPersonById(Number(req.body.guestId));
         if (!newPerson) {
@@ -105,7 +96,6 @@ export const updateReservationByCode = (req: Request, res: Response) => {
         rsv.guest = newPerson;
     }
 
-    // Odpovieme JSONom, aby Angular nehlásil chybu
     res.status(200).json({ message: "Reservation updated" });
 }
 
@@ -117,13 +107,13 @@ export const deleteReservationByCode = (req: Request, res: Response) => {
         return;
     }
 
-    // 1. Uvoľníme izbu, ak je obsadená (kľúčová funkcionalita)
+    // uvolnenie izby
     const room = rsv.room;
     if (room && room.getIsOccupied()) {
         room.setOccupied(false);
     }
 
-    // 2. Vymažeme rezerváciu
+    // vymazanie rezervacie
     storage.deleteReservationByCode(code);
 
     res.status(204).send(void 0); // 204 No Content pre úspešné mazanie

@@ -5,16 +5,11 @@ import { compareId, gatValidId, getObject } from "../utils/validation.utils";
 
 const storage = Storage.getInstance();
 
-// ---------------------------------------------------------
-// GET ALL ROOMS
-// ---------------------------------------------------------
 export const getAllRooms = (req: Request, res: Response) => {
     res.send(storage.getAllRooms());
 };
 
-// ---------------------------------------------------------
-// GET ROOM BY ID
-// ---------------------------------------------------------
+
 export const getRoomById = (req: Request, res: Response) => {
     const id = gatValidId(req, res);
     if (!id) return;
@@ -29,9 +24,6 @@ export const getRoomById = (req: Request, res: Response) => {
     res.send(room);
 };
 
-// ---------------------------------------------------------
-// CREATE ROOM
-// ---------------------------------------------------------
 export const createRoom = (req: Request, res: Response) => {
 
     const isOccupied = req.body.isOccupied === "occupied";
@@ -49,9 +41,6 @@ export const createRoom = (req: Request, res: Response) => {
     res.status(201).send(room.getId());
 };
 
-// ---------------------------------------------------------
-// UPDATE ROOM BY ID
-// ---------------------------------------------------------
 export const updateRoomById = (req: Request, res: Response) => {
     const id = gatValidId(req, res);
     if (!id) return;
@@ -89,12 +78,6 @@ export const updateRoomById = (req: Request, res: Response) => {
     res.send(void 0);
 };
 
-// ... existujúce importy
-// ...
-
-// ---------------------------------------------------------
-// DELETE ROOM BY ID
-// ---------------------------------------------------------
 export const deleteRoomById = (req: Request, res: Response) => {
     const id = gatValidId(req, res);
     if (!id) return;
@@ -106,7 +89,6 @@ export const deleteRoomById = (req: Request, res: Response) => {
     );
     if (!room) return;
 
-    // NOVÉ: Kontrola aktívnych rezervácií
     const hasActiveReservation = storage.getAllReservations().some(r => r.room.getId() === id);
 
     if (hasActiveReservation) {
@@ -115,5 +97,5 @@ export const deleteRoomById = (req: Request, res: Response) => {
     }
 
     storage.deleteRoomById(id);
-    res.status(204).send(void 0); // 204 No Content pre úspešné mazanie
+    res.status(204).send(void 0);
 };

@@ -5,7 +5,7 @@ export class Room {
         private type: 'single' | 'double' | 'suite' | 'deluxe',
         private price: string,
         private isOccupied: boolean,
-        private capacity: string
+        private capacity: number
     ) {}
 
     // GETTERS
@@ -50,7 +50,7 @@ export class Room {
         this.isOccupied = status;
     }
 
-    setCapacity(capacity: string) {
+    setCapacity(capacity: number) {
         this.capacity = capacity;
     }
 }
